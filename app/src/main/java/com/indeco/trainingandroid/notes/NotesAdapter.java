@@ -42,7 +42,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClicked(item);
+                listener.onItemClicked(item, position);
             }
         });
     }
@@ -62,8 +62,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         this.listener = listener;
     }
 
+    public void update(Note note, int position) {
+        list.set(position, note);
+        notifyDataSetChanged();
+    }
+
     public interface OnClickListener {
-        void onItemClicked(Note note);
+        void onItemClicked(Note note, int position);
     }
 
     public static class NotesViewHolder extends RecyclerView.ViewHolder {

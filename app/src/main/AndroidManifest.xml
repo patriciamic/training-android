@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TrainingAndroid">
-        <activity android:name=".notes.AddNoteActivity"></activity>
+        <activity android:name=".notes.ItemNoteActivity"></activity>
         <activity android:name=".notes.NoteActivity" />
         <activity android:name=".SecondActivity" />
         <activity android:name=".MainActivity">

@@ -12,9 +12,11 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.indeco.trainingandroid.R;
 import com.indeco.trainingandroid.entities.Note;
 
-public class AddNoteActivity extends AppCompatActivity implements View.OnClickListener {
+public class ItemNoteActivity extends AppCompatActivity implements View.OnClickListener {
 
+    public static final String ITEM_POSITION = "item position";
     public static String KEY = "add new note";
+    public static String UPDATE_KEY = "update note";
 
     private EditText etTitle;
     private EditText etContent;
@@ -28,6 +30,13 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
         init();
+
+        Intent intent = getIntent();
+        if (intent.hasExtra(KEY)) {
+            Note note = (Note) intent.getSerializableExtra(KEY);
+            etTitle.setText(note.getTitle());
+            etContent.setText(note.getContent());
+        }
     }
 
     private void init() {
@@ -51,10 +60,8 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
                 String content = etContent.getText().toString();
 
                 if (validate(title, content)) {
-
                     Note note = new Note(title, content);
-                    Intent intent = new Intent();
-                    intent.putExtra(KEY, note);
+                    Intent intent = getNoteIntent(note);
                     setResult(RESULT_OK, intent);
                     finish();
                 }
@@ -65,6 +72,18 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
                 finish();
                 break;
         }
+    }
+
+    private Intent getNoteIntent(Note note) {
+        Intent intent = new Intent();
+
+        if (getIntent().hasExtra(KEY)) {
+            intent.putExtra(UPDATE_KEY, note);
+            intent.putExtra(ITEM_POSITION, getIntent().getIntExtra(ITEM_POSITION, -1));
+        } else {
+            intent.putExtra(KEY, note);
+        }
+        return intent;
     }
 
     private boolean validate(String title, String content) {

@@ -2,7 +2,6 @@ package com.indeco.trainingandroid.notes;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,11 +13,10 @@ import android.widget.Toast;
 import com.indeco.trainingandroid.R;
 import com.indeco.trainingandroid.entities.Note;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class NoteActivity extends AppCompatActivity implements View.OnClickListener, NotesAdapter.OnClickListener {
 
+    private static final int ADD = 1;
+    private static final int UPDATE = 2;
     private NotesAdapter adapter;
 
     @Override
@@ -38,24 +36,43 @@ public class NoteActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(this, AddNoteActivity.class);
-        startActivityForResult(intent, 10);
+        Intent intent = new Intent(this, ItemNoteActivity.class);
+        startActivityForResult(intent, 1);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK) {
-            assert data != null;
-            Note note = (Note) data.getSerializableExtra(AddNoteActivity.KEY);
-            adapter.add(note);
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+
+        assert data != null;
+
+        Note note;
+        switch (requestCode) {
+            case ADD:
+                note = (Note) data.getSerializableExtra(ItemNoteActivity.KEY);
+                adapter.add(note);
+                break;
+            case UPDATE:
+                note = (Note) data.getSerializableExtra(ItemNoteActivity.UPDATE_KEY);
+                int position = data.getIntExtra(ItemNoteActivity.ITEM_POSITION, -1);
+                if (position == -1) {
+                    return;
+                }
+                adapter.update(note, position);
+                break;
         }
 
     }
 
     @Override
-    public void onItemClicked(Note note) {
-        Toast.makeText(this, note.getTitle() + " " + note.getContent(), Toast.LENGTH_SHORT).show();
+    public void onItemClicked(Note note, int position) {
+        Intent intent = new Intent(this, ItemNoteActivity.class);
+        intent.putExtra(ItemNoteActivity.KEY, note);
+        intent.putExtra(ItemNoteActivity.ITEM_POSITION, position);
+        startActivityForResult(intent, 2);
     }
 }
