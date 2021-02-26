@@ -3,6 +3,7 @@ package com.indeco.trainingandroid.notes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -45,6 +46,14 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
                 listener.onItemClicked(item, position);
             }
         });
+
+        holder.deleteView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                list.remove(position);
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -75,6 +84,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         TextView tvTitle;
         TextView tvContent;
         View cv;
+        View deleteView;
 
         public NotesViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -83,6 +93,8 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
             tvContent = itemView.findViewById(R.id.tvContent);
 
             cv = itemView.findViewById(R.id.cv);
+
+            deleteView = itemView.findViewById(R.id.delete);
         }
     }
 }
