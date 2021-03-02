@@ -26,7 +26,10 @@ public class FirstFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_first, container, false);
 
         view.findViewById(R.id.btnGoToSecond).setOnClickListener(v -> {
-            navController.navigate(R.id.action_firstFragment_to_secondFragment);
+
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("model_extra", new Model("test"));
+            navController.navigate(R.id.action_firstFragment_to_secondFragment, bundle);
         });
 
         return view;
