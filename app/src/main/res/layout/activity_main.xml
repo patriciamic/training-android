@@ -36,5 +36,12 @@
         android:text="Go to Notes"
         />
 
+    <Button
+        android:id="@+id/btnNavHost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to Nav Host"
+        />
+
 
 </LinearLayout>

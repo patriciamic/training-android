@@ -20,7 +20,6 @@ public class TestFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         containerView = inflater.inflate(R.layout.fragment_test, container, false);
-
         return containerView;
     }
 

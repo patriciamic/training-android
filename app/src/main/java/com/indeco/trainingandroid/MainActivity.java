@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.indeco.trainingandroid.navhost.NavHostActivity;
 import com.indeco.trainingandroid.notes.NoteActivity;
 import com.indeco.trainingandroid.test.Entity;
 
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn.setOnClickListener(this);
 
         findViewById(R.id.btnNotes).setOnClickListener(this);
+        findViewById(R.id.btnNavHost).setOnClickListener(this);
 
     }
 
@@ -39,6 +41,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnNotes:
                 Intent intent = new Intent(this, NoteActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.btnNavHost:
+                Intent intentNavHost = new Intent(this, NavHostActivity.class);
+                startActivity(intentNavHost);
                 break;
         }
 

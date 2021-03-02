@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".navhost.FirstFragment"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FIRST"
+        android:textSize="30sp"
+        android:layout_centerInParent="true"/>
+
+    <Button
+        android:id="@+id/btnGoToSecond"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GO TO SECOND"
+        android:layout_below="@+id/tvTitle"/>
+
+    <Button
+        android:id="@+id/btnGoToThird"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GO TO THIRD"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/tvTitle"
+        />
+
+</RelativeLayout>
