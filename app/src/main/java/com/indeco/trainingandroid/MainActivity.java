@@ -5,14 +5,24 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.indeco.trainingandroid.io.remote.UICallable;
+import com.indeco.trainingandroid.io.remote.entities.MyModel;
+import com.indeco.trainingandroid.io.remote.impl.AsisocImpl;
 import com.indeco.trainingandroid.navhost.NavHostActivity;
 import com.indeco.trainingandroid.notes.NoteActivity;
 import com.indeco.trainingandroid.test.Entity;
+
+import org.json.JSONArray;
+
+import java.util.List;
+
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SecondActivity.OnChangedListener {
     EditText et;
@@ -28,13 +38,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btnNotes).setOnClickListener(this);
         findViewById(R.id.btnNavHost).setOnClickListener(this);
 
+
+        try {
+            AsisocImpl service = new AsisocImpl();
+            service.getMyModels("4", "76770", "202102", new UICallable<Response<List<MyModel>>>() {
+                @Override
+                public void onResponse(Response<List<MyModel>> listResponse) {
+                    Log.e("AAAAAAA", "success " + listResponse.body());
+                }
+
+                @Override
+                public void onError(String message) {
+                    Log.e("AAAAAAA", "error " + message);
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn:
                 startSecondActivity();
                 break;

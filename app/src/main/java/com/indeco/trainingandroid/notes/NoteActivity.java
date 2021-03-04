@@ -12,12 +12,19 @@ import android.widget.Toast;
 
 import com.indeco.trainingandroid.R;
 import com.indeco.trainingandroid.entities.Note;
+import com.indeco.trainingandroid.notes.io.local.room.AppDatabaseHandler;
+import com.indeco.trainingandroid.notes.io.local.room.Parser;
+import com.indeco.trainingandroid.notes.io.local.room.dao.NoteDao;
+import com.indeco.trainingandroid.notes.io.local.room.entities.RoomNote;
+
+import java.util.List;
 
 public class NoteActivity extends AppCompatActivity implements View.OnClickListener, NotesAdapter.OnClickListener {
 
     private static final int ADD = 1;
     private static final int UPDATE = 2;
     private NotesAdapter adapter;
+    private NoteDao noteDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,14 @@ public class NoteActivity extends AppCompatActivity implements View.OnClickListe
         adapter = new NotesAdapter();
         adapter.setOnClickedListener(this);
         rv.setAdapter(adapter);
+
+        new Thread(() -> {
+            noteDao = AppDatabaseHandler.getInstance().getDb().getNoteDao();
+            List<Note> list = Parser.parse(noteDao.getAll());
+            runOnUiThread(() -> {
+                adapter.setList(list);
+            });
+        }).start();
     }
 
     @Override
@@ -55,6 +70,9 @@ public class NoteActivity extends AppCompatActivity implements View.OnClickListe
             case ADD:
                 note = (Note) data.getSerializableExtra(ItemNoteActivity.KEY);
                 adapter.add(note);
+                new Thread(() -> {
+                    noteDao.insert(Parser.parse(note));
+                }).start();
                 break;
             case UPDATE:
                 note = (Note) data.getSerializableExtra(ItemNoteActivity.UPDATE_KEY);
